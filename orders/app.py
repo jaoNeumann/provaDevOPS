@@ -10,8 +10,10 @@ cache = redis.Redis(host='redis', port=6379)
 def create_order():
     cached = cache.get('product')
     if cached:
+        print("redis biricutico", flush=True)
         product = eval(cached)
     else:
+        print("nao tem cache usando banco", flush=True)
         r = requests.get('http://products:3001/products')
         product = r.json()['products'][0]
         cache.set('product', str(product))
